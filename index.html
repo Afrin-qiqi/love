@@ -8,10 +8,11 @@
   <style>
     canvas {
       position: absolute;
-      left: 50%;
-      top: 50%;
-      transform: translate(-50%, -50%);
-      background-color: black;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: black; /* Changed to black background */
     }
   </style>
 </head>
@@ -45,31 +46,22 @@
       if (loaded) return;
       loaded = true;
       var mobile = window.isDevice;
+      var koef = mobile ? 0.4 : 1;  // Reduced koef for mobile to make it smaller
       var canvas = document.getElementById("heart");
       var ctx = canvas.getContext("2d");
-      var width, height;
-      if (mobile) {
-        width = canvas.width = 150;  // Even smaller fixed size for mobile
-        height = canvas.height = 150;
-        canvas.style.width = '150px';
-        canvas.style.height = '150px';
-      } else {
-        width = canvas.width = innerWidth;
-        height = canvas.height = innerHeight;
-        canvas.style.width = '100%';
-        canvas.style.height = '100%';
-      }
+      var width = (canvas.width = koef * innerWidth);
+      var height = (canvas.height = koef * innerHeight);
       var rand = Math.random;
 
-      ctx.fillStyle = "black";
+      ctx.fillStyle = "black"; /* Changed to black for initial fill */
       ctx.fillRect(0, 0, width, height);
 
-      var fontSize = mobile ? "12px" : "60px";  // Smaller font for mobile
-      var textOffset = mobile ? 50 : 400;  // Smaller offset for mobile
+      var fontSize = mobile ? "30px" : "60px";  // Smaller font for mobile
+      var textOffset = mobile ? 200 : 400;  // Smaller offset for mobile
 
       var drawText = function () {
         ctx.font = fontSize + " Arial"; 
-        ctx.fillStyle = "pink";
+        ctx.fillStyle = "pink"; /* Pink text for "love" */
         ctx.textAlign = "center";
         ctx.fillText("love", width / 2, height / 2.2 + textOffset);
       };
@@ -91,23 +83,18 @@
       };
 
       window.addEventListener("resize", function () {
-        if (mobile) {
-          width = canvas.width = 150;
-          height = canvas.height = 150;
-        } else {
-          width = canvas.width = innerWidth;
-          height = canvas.height = innerHeight;
-        }
-        ctx.fillStyle = "black";
+        width = canvas.width = koef * innerWidth;
+        height = canvas.height = koef * innerHeight;
+        ctx.fillStyle = "black"; /* Changed to black on resize */
         ctx.fillRect(0, 0, width, height);
       });
 
       var traceCount = mobile ? 20 : 50;
       var pointsOrigin = [];
       var dr = mobile ? 0.3 : 0.1;
-      var scale1 = mobile ? 60 : 310;  // Adjusted scale for smaller mobile size
-      var scale2 = mobile ? 40 : 250;
-      var scale3 = mobile ? 25 : 190;
+      var scale1 = mobile ? 200 : 310;  // Smaller scale for mobile
+      var scale2 = mobile ? 150 : 250;
+      var scale3 = mobile ? 100 : 190;
       for (var i = 0; i < Math.PI * 2; i += dr)
         pointsOrigin.push(scaleAndTranslate(heartPosition(i), scale1, 19, 0, 0)); 
       for (var i = 0; i < Math.PI * 2; i += dr)
@@ -139,7 +126,7 @@
           q: ~~(rand() * heartPointsCount),
           D: 2 * (i % 2) - 1,
           force: 0.2 * rand() + 0.7,
-          f: "rgba(255, 102, 178, 0.7)",
+          f: "rgba(255, 102, 178, 0.7)", /* Pink particles */
           trace: Array.from({ length: traceCount }, () => ({ x, y })),
         };
       }
@@ -152,7 +139,7 @@
         pulse((1 + n) * 0.5, (1 + n) * 0.5);
         time += (Math.sin(time) < 0 ? 9 : n > 0.8 ? 0.2 : 1) * config.timeDelta;
 
-        ctx.fillStyle = "rgba(0,0,0,.1)";
+        ctx.fillStyle = "rgba(0,0,0,.1)"; /* Changed to black fade for trails on black background */
         ctx.fillRect(0, 0, width, height);
 
         for (var i = e.length; i--; ) {
