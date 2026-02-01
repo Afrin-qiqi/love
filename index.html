@@ -46,7 +46,7 @@
       if (loaded) return;
       loaded = true;
       var mobile = window.isDevice;
-      var koef = mobile ? 0.5 : 1;
+      var koef = mobile ? 0.4 : 1;  // Reduced koef for mobile to make it smaller
       var canvas = document.getElementById("heart");
       var ctx = canvas.getContext("2d");
       var width = (canvas.width = koef * innerWidth);
@@ -56,11 +56,14 @@
       ctx.fillStyle = "black"; /* Changed to black for initial fill */
       ctx.fillRect(0, 0, width, height);
 
+      var fontSize = mobile ? "30px" : "60px";  // Smaller font for mobile
+      var textOffset = mobile ? 200 : 400;  // Smaller offset for mobile
+
       var drawText = function () {
-        ctx.font = "60px Arial"; 
+        ctx.font = fontSize + " Arial"; 
         ctx.fillStyle = "pink"; /* Pink text for "love" */
         ctx.textAlign = "center";
-        ctx.fillText("love", width / 2, height / 2.2 + 400);
+        ctx.fillText("love", width / 2, height / 2.2 + textOffset);
       };
 
       var heartPosition = function (rad) {
@@ -89,12 +92,15 @@
       var traceCount = mobile ? 20 : 50;
       var pointsOrigin = [];
       var dr = mobile ? 0.3 : 0.1;
+      var scale1 = mobile ? 200 : 310;  // Smaller scale for mobile
+      var scale2 = mobile ? 150 : 250;
+      var scale3 = mobile ? 100 : 190;
       for (var i = 0; i < Math.PI * 2; i += dr)
-        pointsOrigin.push(scaleAndTranslate(heartPosition(i), 310, 19, 0, 0)); 
+        pointsOrigin.push(scaleAndTranslate(heartPosition(i), scale1, 19, 0, 0)); 
       for (var i = 0; i < Math.PI * 2; i += dr)
-        pointsOrigin.push(scaleAndTranslate(heartPosition(i), 250, 15, 0, 0)); 
+        pointsOrigin.push(scaleAndTranslate(heartPosition(i), scale2, 15, 0, 0)); 
       for (var i = 0; i < Math.PI * 2; i += dr)
-        pointsOrigin.push(scaleAndTranslate(heartPosition(i), 190, 11, 0, 0)); 
+        pointsOrigin.push(scaleAndTranslate(heartPosition(i), scale3, 11, 0, 0)); 
 
       var heartPointsCount = pointsOrigin.length;
       var targetPoints = [];
