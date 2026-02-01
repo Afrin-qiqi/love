@@ -46,7 +46,7 @@
       if (loaded) return;
       loaded = true;
       var mobile = window.isDevice;
-      var koef = mobile ? 0.4 : 1;  // Reduced koef for mobile to make it smaller
+      var koef = mobile ? 0.25 : 1;  // Further reduced koef for mobile to make it even smaller
       var canvas = document.getElementById("heart");
       var ctx = canvas.getContext("2d");
       var width = (canvas.width = koef * innerWidth);
@@ -56,8 +56,8 @@
       ctx.fillStyle = "black"; /* Changed to black for initial fill */
       ctx.fillRect(0, 0, width, height);
 
-      var fontSize = mobile ? "30px" : "60px";  // Smaller font for mobile
-      var textOffset = mobile ? 200 : 400;  // Smaller offset for mobile
+      var fontSize = mobile ? "20px" : "60px";  // Even smaller font for mobile
+      var textOffset = mobile ? 100 : 400;  // Smaller offset for mobile
 
       var drawText = function () {
         ctx.font = fontSize + " Arial"; 
@@ -92,9 +92,9 @@
       var traceCount = mobile ? 20 : 50;
       var pointsOrigin = [];
       var dr = mobile ? 0.3 : 0.1;
-      var scale1 = mobile ? 200 : 310;  // Smaller scale for mobile
-      var scale2 = mobile ? 150 : 250;
-      var scale3 = mobile ? 100 : 190;
+      var scale1 = mobile ? 120 : 310;  // Further reduced scale for mobile
+      var scale2 = mobile ? 80 : 250;
+      var scale3 = mobile ? 50 : 190;
       for (var i = 0; i < Math.PI * 2; i += dr)
         pointsOrigin.push(scaleAndTranslate(heartPosition(i), scale1, 19, 0, 0)); 
       for (var i = 0; i < Math.PI * 2; i += dr)
